@@ -62,6 +62,7 @@ Split your data set into training and testing sets.
 # 1877/1877 [==============================] - 6s - loss: 0.0039
 # Epoch 2/10
 # 1877/1877 [==============================] - 6s - loss: 0.0019
+...
 ```
 
 ##### d. Testing
@@ -70,7 +71,6 @@ Split your data set into training and testing sets.
 >>> p = rnn.predict(Xtest)
 >>> mean_squared_error(ytest, p)
 0.00042927869370525931
-...
 >>> import matplotlib.pyplot as pplt
 >>> pplt.plot(ytest)
 >>> pplt.plot(p)
