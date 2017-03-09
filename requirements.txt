@@ -1,0 +1,12 @@
+jupyter
+numpy
+scipy
+matplotlib
+scikit-learn
+sphinx
+matplotlib
+quandl
+keras
+tweepy
+textblob
+pytest

@@ -1,0 +1,8 @@
+# virtualenvs
+.venv
+
+# Jupyter Checkpoints
+examples/.ipynb_checkpoints
+
+# twitter
+twitter.sh
