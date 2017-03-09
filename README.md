@@ -6,6 +6,7 @@
 ### Table of Contents
 * [Installation](#installation)
 * [Usage](#usage)
+* [Dependencies](#dependencies)
 * [License](#license)
 
 ### Installation
@@ -92,6 +93,12 @@ And then,
 >>> bb.sentiment(share)
 0.07580128205128206
 ```
+
+### Dependencies
+1. quandl
+2. keras
+3. tweepy
+4. textblob
 
 ### License
 This code has been released under the [Apache 2.0 License](LICENSE).
