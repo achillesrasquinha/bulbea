@@ -59,7 +59,7 @@ Split your data set into training and testing sets.
 >>> rnn = RNN([1, 100, 100, 1]) # number of neurons in each layer
 >>> rnn.fit(Xtrain, ytrain)
 # Epoch 1/10
-# 1877/1877 [==============================] - 6s - loss: 0.0039
+# 1877/1877 [==============================] - 6s - loss: 0.0039
 # Epoch 2/10
 # 1877/1877 [==============================] - 6s - loss: 0.0019
 ```
