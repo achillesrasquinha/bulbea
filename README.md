@@ -15,6 +15,11 @@ Clone the git repository:
 $ git clone https://github.com/achillesrasquinha/bulbea.git && cd bulbea
 ```
 
+Install necessary dependencies
+```console
+$ pip install -r requirements.txt
+```
+
 Go ahead and install as follows:
 ```console
 $ python setup.py install
