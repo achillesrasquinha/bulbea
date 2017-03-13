@@ -1,6 +1,9 @@
 # virtualenvs
 .venv
 
+# docs
+docs/_build
+
 # Jupyter Checkpoints
 examples/.ipynb_checkpoints
 
