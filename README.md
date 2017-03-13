@@ -1,5 +1,5 @@
 # bulbea
-> deep learning based **stock market predictor**  and **model builder**
+> Deep Learning based Python Library for Stock Market Prediction and Modelling
 
 ![](.github/bulbea.png)
 
@@ -37,7 +37,7 @@ $ pip install tensorflow-gpu # GPU - Requires CUDA, CuDNN
 Create a share object.
 ```python
 >>> import bulbea as bb
->>> share = bb.Share('YAHOO', 'GOOGL', alias = 'Google')
+>>> share = bb.Share('YAHOO', 'GOOGL')
 >>> share.data
 # Open        High         Low       Close      Volume  \
 # Date                                                                     
