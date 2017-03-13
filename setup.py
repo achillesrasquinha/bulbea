@@ -33,7 +33,7 @@ class CleanCommand(Clean):
             for dirname in dirnames:
                 if dirname in RELPATH_WALK_DIRS_CLEAN:
                     path = os.path.join(dirpath, dirname)
-                    shutil.rmtree(path)
+                    shutil.rmtree(path, ignore_errors = True)
 
 class TestCommand(Command):
     user_options = [('pytest=', 'a', 'arguments to be passed to pytest')]
