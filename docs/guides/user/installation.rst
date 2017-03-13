@@ -6,8 +6,6 @@ Installation
 Building from source
 ++++++++++++++++++++
 
-OR
-
 You can clone the repository with `git` as follows:
 
 .. code-block:: console
