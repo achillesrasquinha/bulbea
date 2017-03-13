@@ -1,9 +1,6 @@
 # imports - compatibility packages
 from __future__ import absolute_import
 
-# imports - standard packages
-import collections
-
 # imports - third-party packages
 import matplotlib.pyplot as pplt
 import quandl
@@ -11,7 +8,7 @@ import quandl
 # module imports
 from bulbea.config.app import AppConfig
 from bulbea.entity import Entity
-from bulbea._util import _check_str, _check_int, _check_pandas_series, _assign_if_none, _get_type_name, _raise_type_error
+from bulbea._util import _check_str, _check_int, _check_pandas_series, _check_iterable, _assign_if_none, _get_type_name, _raise_type_error
 
 pplt.style.use(AppConfig.PLOT_STYLE)
 
@@ -116,7 +113,7 @@ class Share(Entity):
              bandwidth       = 1,
              subplots        = False, *args, **kwargs):
         '''
-        :param attrs: `str` or `list` of attribute names of a share to plot, defaults to all available attributes
+        :param attrs: `str` or `list` of attribute names of a share to plot, defaults to *Close* attribute
         :type attrs: :obj: `str`, :obj:`list`
 
         :Example:
@@ -125,11 +122,7 @@ class Share(Entity):
         >>> share = bb.Share(source = 'YAHOO', ticker = 'AAPL')
         >>> share.plot()
         '''
-        if not isinstance(attrs, collections.Iterable):
-            _raise_type_error(
-                expected_type_name = '(str, list)',
-                recieved_type_name = _get_type_name(attrs)
-            )
+        _check_iterable(attrs, raise_err = True)
 
         if _check_str(attrs):
             attrs  = [attrs]
