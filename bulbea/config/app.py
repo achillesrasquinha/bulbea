@@ -4,9 +4,9 @@ from bulbea.config      import BaseConfig
 from bulbea._util.color import Color
 
 class AppConfig(BaseConfig):
-    NAME          = 'bulbea'
-    VERSION       = (0,1,0)
-    LOGO          = \
+    NAME                = 'bulbea'
+    VERSION             = (0,1,0)
+    LOGO                = \
 """
 888               888 888
 888               888 888
@@ -16,7 +16,10 @@ class AppConfig(BaseConfig):
 888  888 888  888 888 888  888 88888888 .d888888
 888 d88P Y88b 888 888 888 d88P Y8b.     888  888
 88888P"   "Y88888 888 88888P"   "Y8888  "Y888888"""
-    COLOR_PRIMARY = Color.YELLOW
+    COLOR_PRIMARY       = Color.YELLOW
 
-    WINDOW_WIDTH  = 640
-    WINDOW_HEIGHT = 480
+    WINDOW_ASPECT_RATIO = 3 / 2
+    WINDOW_WIDTH        = 320
+    WINDOW_HEIGHT       = int(WINDOW_WIDTH * WINDOW_ASPECT_RATIO)
+
+    PLOT_STYLE          = 'seaborn'
