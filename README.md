@@ -1,6 +1,8 @@
 # bulbea
 > Deep Learning based Python Library for Stock Market Prediction and Modelling
 
+[![Gitter](https://img.shields.io/gitter/room/bulbea/bulbea.svg)](https://gitter.im/bulbea/bulbea) [![Documentation Status](https://readthedocs.org/projects/bulbea/badge/?version=latest)](http://bulbea.readthedocs.io/en/latest/?badge=latest)
+
 ![](.github/bulbea.png)
 
 ### Table of Contents
