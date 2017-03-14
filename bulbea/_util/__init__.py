@@ -6,10 +6,13 @@ from bulbea._util._util import (
     _check_type,
     _check_str,
     _check_int,
+    _check_real,
     _check_pandas_series,
+    _check_pandas_dataframe,
     _check_iterable,
-    _check_in_range,
+    _validate_in_range,
     _assign_if_none,
     _get_type_name,
-    _raise_type_error
+    _raise_type_error,
+    _is_sequence_all
 )

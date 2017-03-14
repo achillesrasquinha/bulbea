@@ -4,7 +4,7 @@ from bulbea._util import (
     _raise_type_error,
     _get_type_name,
     _check_type,
-    _check_in_range,
+    _validate_in_range,
     _assign_if_none
 )
 
@@ -29,12 +29,12 @@ def test__check_type():
     assert _check_type('bar', type_ = str) == True
     assert _check_type('foo', type_ = int) == False
 
-def test__check_in_range():
+def test__validate_in_range():
     with pytest.raises(ValueError):
-        _check_in_range(123, 0, 1, raise_err = True)
+        _validate_in_range(123, 0, 1, raise_err = True)
 
-    assert _check_in_range(0.5, 0, 1) == True
-    assert _check_in_range(123, 0, 1) == False
+    assert _validate_in_range(0.5, 0, 1) == True
+    assert _validate_in_range(123, 0, 1) == False
 
 def test__assign_if_none():
     assert _assign_if_none(None, 1) == 1
