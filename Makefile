@@ -13,11 +13,11 @@ install:
 docs:
 	cd docs && make html
 
-test:
+tests:
 	$(PYTHON) setup.py test
 
 clean:
 	$(PYTHON) setup.py clean
 
 all:
-	make install docs clean
+	make install docs tests clean
