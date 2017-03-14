@@ -23,6 +23,9 @@ modules           = [
     'bulbea.learn.evaluation',
     'bulbea.learn.sentiment'
 ]
+test_modules      = [
+    'bulbea._util.tests'
+]
 homepage          = 'https://achillesrasquinha.github.io/bulbea'
 github_username   = 'achillesrasquinha'
 github_repository = 'bulbea'
