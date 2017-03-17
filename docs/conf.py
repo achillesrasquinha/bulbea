@@ -4,6 +4,7 @@ import sys
 import os
 
 sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('_themes'))
 
 import package
 import bulbea as bb
@@ -24,9 +25,10 @@ html_static_path     = ['_static']
 html_sidebars        = {
     '**': ['sidebar-logo.html']
 }
-pygments_style       = 'sphinx'
+pygments_style       = 'flask_theme_support.FlaskyStyle'
 extensions           = [
-    'sphinx.ext.autodoc'
+    'sphinx.ext.autodoc',
+    'sphinx.ext.mathjax'
 ]
 source_suffix        = '.rst'
 master_doc           = 'index'
