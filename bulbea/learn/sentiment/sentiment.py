@@ -1,16 +1,11 @@
+# imports - compatibility imports
 from __future__ import absolute_import
 
+# imports - third-party packages
 import textblob
 
-from bulbea.learn.sentiment import twitter
+# module imports
+from bulbea.learn.sentiment.twitter import Twitter
 
-def sentiment(share, *args, **kwargs):
-    search = share.alias
-    tweets = twitter.API.search(search, *args, **kwargs)
-    score  = 0
-
-    for tweet in tweets:
-        blob   = textblob.TextBlob(tweet.text)
-        score += blob.sentiment.polarity
-
-    return (score / len(tweets))
+def sentiment(share):
+    pass
