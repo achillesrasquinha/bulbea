@@ -24,4 +24,3 @@ parser.add_argument('-v', '--version',
 
 def main():
     args = parser.parse_args()
-    
