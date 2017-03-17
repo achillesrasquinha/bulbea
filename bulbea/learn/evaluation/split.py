@@ -57,4 +57,4 @@ def split(share,
     Xtrain, Xtest = train[:,:-1], test[:,:-1]
     ytrain, ytest = train[:, -1], test[:, -1]
 
-    return (scaler, Xtrain, Xtest, ytrain, ytest)
+    return (Xtrain, Xtest, ytrain, ytest)
