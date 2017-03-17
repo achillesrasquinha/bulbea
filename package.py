@@ -21,7 +21,11 @@ modules           = [
     'bulbea.learn',
     'bulbea.learn.models',
     'bulbea.learn.evaluation',
-    'bulbea.learn.sentiment'
+    'bulbea.learn.sentiment',
+    'bulbea.app',
+    'bulbea.app.client',
+    'bulbea.app.server',
+    'bulbea.app.config'
 ]
 test_modules      = [
     'bulbea._util.tests'

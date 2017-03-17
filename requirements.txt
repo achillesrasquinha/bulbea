@@ -11,4 +11,5 @@ quandl
 keras
 tweepy
 textblob
+Flask
 pytest
