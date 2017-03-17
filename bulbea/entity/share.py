@@ -1,7 +1,11 @@
 # imports - compatibility packages
 from __future__ import absolute_import
 
+# imports - standard packages
+import warnings
+
 # imports - third-party packages
+import numpy as np
 import matplotlib.pyplot as pplt
 import pandas as pd
 import quandl
@@ -15,6 +19,7 @@ from bulbea._util import (
     _check_pandas_series,
     _check_pandas_dataframe,
     _check_iterable,
+    _check_environment_variable_set,
     _assign_if_none,
     _get_type_name,
     _raise_type_error,
@@ -24,7 +29,7 @@ from bulbea._util import (
 pplt.style.use(AppConfig.PLOT_STYLE)
 
 def _get_cummulative_return(data):
-    cumret = (data / data[0]) - 1
+    cumret  = (data / data[0]) - 1
 
     return cumret
 
@@ -95,6 +100,15 @@ class Share(Entity):
     :param ticker: *ticker* symbol of a share
     :type ticker: :obj:`str`
 
+    :param start: starting date string of the form YYYY-MM-DD for acquiring historical records, defaults to the earliest available records
+    :type start: :obj:`str`
+
+    :param end: ending date string of the form YYYY-MM-DD for acquiring historical records, defaults to the latest available records
+    :type end: :obj:`str`
+
+    :param latest: acquires the latest N records
+    :type latest: :obj:`int`
+
     :Example:
 
     >>> import bulbea as bb
@@ -104,16 +118,22 @@ class Share(Entity):
     Date
     2003-05-15  18.6  18.849999  18.470001  18.73  71248800.0        1.213325
     '''
-    def __init__(self, source, ticker, start = None, end = None, latest = None):
+    def __init__(self, source, ticker, start = None, end = None, latest = None, cache = False):
         _check_str(source, raise_err = True)
         _check_str(ticker, raise_err = True)
 
-        self.source  = source
-        self.ticker  = ticker
+        quandl_api_key = AppConfig.ENVIRONMENT_VARIABLE['quandl_api_key']
 
-        self._update(start = start, end = end, latest = latest)
+        if not _check_environment_variable_set(quandl_api_key):
+            warnings.warn("Environment variable {quandl_api_key} for Quandl hasn't been set. ".format(quandl_api_key = quandl_api_key),
+                          " A maximum of {max_free_quandl_calls} calls per day can be made.")
 
-    def update(self):
+        self.source    = source
+        self.ticker    = ticker
+
+        self._update(start = start, end = end, latest = latest, cache = cache)
+
+    def update(self, cache = False):
         '''
         Update the share with the latest available data.
 
@@ -123,9 +143,9 @@ class Share(Entity):
         >>> share = bb.Share(source = 'YAHOO', ticker = 'AAPL')
         >>> share.update()
         '''
-        self._update()
+        self._update(cache = cache)
 
-    def _update(self, start = None, end = None, latest = None):
+    def _update(self, start = None, end = None, latest = None, cache = False):
         self.data    = quandl.get('{database}/{code}'.format(
             database = self.source,
             code     = self.ticker
@@ -154,8 +174,6 @@ class Share(Entity):
 
         :param attrs: `str` or `list` of attribute names of a share to plot, defaults to *Close* attribute
         :type attrs: :obj: `str`, :obj:`list`
-
-
 
         :Example:
 
@@ -236,3 +254,10 @@ class Share(Entity):
                     _plot_bollinger_bands(data, axes, period = period, bandwidth = bandwidth)
 
         return axes
+
+    def save(self, format_ = 'csv', filename = None):
+        '''
+        :param format_: type of format to save the Share object, default 'csv'.
+        :type format_: :obj:`str`
+        '''
+        pass
