@@ -3,6 +3,7 @@ from __future__ import absolute_import
 
 # imports - third-party packages
 import numpy as np
+from sklearn.preprocessing import MinMaxScaler
 
 # module imports
 from bulbea._util import (
@@ -10,14 +11,11 @@ from bulbea._util import (
     _check_int,
     _check_real,
     _check_iterable,
+    _check_sequence,
     _validate_in_range
 )
 from bulbea.entity.share import _get_cummulative_return
 import bulbea as bb
-
-def _normalize(data):
-    normalized = np.array([ ((sample / sample[0]) - 1) for sample in data ])
-    return normalized
 
 def split(share,
           attrs     = 'Close',
@@ -39,6 +37,7 @@ def split(share,
     _validate_in_range(train, 0, 1, raise_err = True)
 
     data   = share.data[attrs]
+
     length = len(share)
 
     window = int(np.rint(length * window))
@@ -58,4 +57,4 @@ def split(share,
     Xtrain, Xtest = train[:,:-1], test[:,:-1]
     ytrain, ytest = train[:, -1], test[:, -1]
 
-    return (Xtrain, Xtest, ytrain, ytest)
+    return (scaler, Xtrain, Xtest, ytrain, ytest)
