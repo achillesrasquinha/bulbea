@@ -5,6 +5,7 @@ from bulbea._util import (
     _get_type_name,
     _check_type,
     _validate_in_range,
+    _validate_date,
     _assign_if_none
 )
 
@@ -35,6 +36,13 @@ def test__validate_in_range():
 
     assert _validate_in_range(0.5, 0, 1) == True
     assert _validate_in_range(123, 0, 1) == False
+
+def test__validate_date():
+    with pytest.raises(ValueError):
+        _validate_date('12/12/12', raise_err = True)
+
+    assert _validate_date('2012-01-01') == True
+    assert _validate_date('2012/01/01') == False
 
 def test__assign_if_none():
     assert _assign_if_none(None, 1) == 1

@@ -3,6 +3,7 @@ from __future__ import absolute_import
 from six import string_types
 
 # imports - standard packages
+import os
 import collections
 import numbers
 from datetime import datetime
@@ -55,8 +56,21 @@ def _check_pandas_dataframe(data, raise_err = False):
 def _check_iterable(o, raise_err = False):
     return _check_type(o, collections.Iterable, raise_err = raise_err, expected_type_name = '(str, list, tuple)')
 
-def _check_sequence(o, raise_err = False):
+def _check_sequence(o, string = True, raise_err = False):
     return _check_type(o, collections.Sequence, raise_err = raise_err, expected_type_name = '(list, tuple)')
+
+def _check_environment_variable_set(variable, raise_err = False):
+    _check_str(variable, raise_err = raise_err)
+
+    try:
+        os.getenv(variable)
+    except KeyError:
+        if raise_err:
+            raise ValueError('Environment variable {variable} not set.')
+        else:
+            return False
+
+    return True
 
 def _validate_in_range(value, low, high, raise_err = False):
     if not low <= value <= high:
@@ -77,10 +91,15 @@ def _validate_date(value, format_ = '%Y-%m-%d', raise_err = False):
     try:
         datetime.strptime(value, format_)
     except ValueError:
-        raise ValueError('Expected {format_} format, got {value} instead.'.format(
-            format_ = format_,
-            value   = value
-        ))
+        if raise_err:
+            raise ValueError('Expected {format_} format, got {value} instead.'.format(
+                format_ = format_,
+                value   = value
+            ))
+        else:
+            return False
+
+    return True
 
 def _assign_if_none(a, b):
     return b if a is None else a
