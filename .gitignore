@@ -9,3 +9,6 @@ examples/.ipynb_checkpoints
 
 # twitter
 twitter.sh
+
+# misc
+snippet.py
