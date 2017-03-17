@@ -1,5 +1,5 @@
 # bulbea
-> Deep Learning based Python Library for Stock Market Prediction and Modelling
+> *"Deep Learning based Python Library for Stock Market Prediction and Modelling."*
 
 [![Gitter](https://img.shields.io/gitter/room/bulbea/bulbea.svg)](https://gitter.im/bulbea/bulbea) [![Documentation Status](https://readthedocs.org/projects/bulbea/badge/?version=latest)](http://bulbea.readthedocs.io/en/latest/?badge=latest)
 
@@ -8,6 +8,7 @@
 ### Table of Contents
 * [Installation](#installation)
 * [Usage](#usage)
+* [Documentation](#documentation)
 * [Dependencies](#dependencies)
 * [License](#license)
 
@@ -100,6 +101,9 @@ And then,
 >>> bb.sentiment(share)
 0.07580128205128206
 ```
+
+### Documentation
+Detailed documentation is available [here](http://bulbea.readthedocs.io/en/latest/).
 
 ### Dependencies
 1. quandl
