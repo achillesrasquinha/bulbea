@@ -26,3 +26,8 @@ class Color(object):
         colored    = preset + string + Color.RESET
 
         return colored
+
+    def warn(string):
+        colored = Color.to_color_string(string, foreground = Color.YELLOW)
+
+        return colored

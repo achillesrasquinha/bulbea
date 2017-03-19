@@ -26,7 +26,17 @@ def _get_type_name(o):
 
     return name
 
-def _check_type(o, type_,  raise_err = False, expected_type_name = None):
+def _get_datetime_str(dt, format_):
+    if _check_type(dt, pd.Timestamp):
+        dt = dt.to_pydatetime()
+
+    _check_type(dt, type_ = datetime, raise_err = True, expected_type_name = 'datetime.datetime')
+
+    string = dt.strftime(format_)
+
+    return string
+
+def _check_type(o, type_, raise_err = False, expected_type_name = None):
     if not isinstance(o, type_):
         if raise_err:
             _raise_type_error(
@@ -63,7 +73,7 @@ def _check_environment_variable_set(variable, raise_err = False):
     _check_str(variable, raise_err = raise_err)
 
     try:
-        os.getenv(variable)
+        os.environ[variable]
     except KeyError:
         if raise_err:
             raise ValueError('Environment variable {variable} not set.')

@@ -2,6 +2,7 @@
 from __future__ import absolute_import
 
 # imports - standard packages
+import os
 import warnings
 
 # imports - third-party packages
@@ -14,17 +15,27 @@ import quandl
 from bulbea.config.app import AppConfig
 from bulbea.entity import Entity
 from bulbea._util import (
+    _check_type,
     _check_str,
     _check_int,
     _check_pandas_series,
     _check_pandas_dataframe,
     _check_iterable,
     _check_environment_variable_set,
+    _validate_date,
     _assign_if_none,
     _get_type_name,
+    _get_datetime_str,
     _raise_type_error,
     _is_sequence_all
 )
+from bulbea._util.const import (
+    ABSURL_QUANDL,
+    QUANDL_MAX_DAILY_CALLS,
+    SHARE_ACCEPTED_SAVE_FORMATS
+)
+from bulbea._util.color import Color
+import bulbea as bb
 
 pplt.style.use(AppConfig.PLOT_STYLE)
 
@@ -72,6 +83,33 @@ def _get_bollinger_bands(data, period = 50, bandwidth = 1):
 
     return (lower, mean, upper)
 
+def _get_share_filename(share, extension = None):
+    _check_type(share, bb.Share, raise_err = True, expected_type_name = 'bulbea.Share')
+
+    if extension is not None:
+        _check_str(extension, raise_err = True)
+
+    source    = share.source
+    ticker    = share.ticker
+
+    start     = _get_datetime_str(share.data.index.min(), format_ = '%Y%m%d')
+    end       = _get_datetime_str(share.data.index.max(), format_ = '%Y%m%d')
+
+    filename = '{source}_{ticker}_{start}_{end}'.format(
+        source = source,
+        ticker = ticker,
+        start  = start,
+        end    = end
+    )
+
+    if extension:
+        filename = '{filename}.{extension}'.format(
+            filename  = filename,
+            extension = extension
+        )
+
+    return filename
+
 def _plot_global_mean(data, axes):
     _check_pandas_series(data, raise_err = True)
 
@@ -100,10 +138,10 @@ class Share(Entity):
     :param ticker: *ticker* symbol of a share
     :type ticker: :obj:`str`
 
-    :param start: starting date string of the form YYYY-MM-DD for acquiring historical records, defaults to the earliest available records
+    :param start: starting date string in the form YYYY-MM-DD for acquiring historical records, defaults to the earliest available records
     :type start: :obj:`str`
 
-    :param end: ending date string of the form YYYY-MM-DD for acquiring historical records, defaults to the latest available records
+    :param end: ending date string in the form YYYY-MM-DD for acquiring historical records, defaults to the latest available records
     :type end: :obj:`str`
 
     :param latest: acquires the latest N records
@@ -122,18 +160,21 @@ class Share(Entity):
         _check_str(source, raise_err = True)
         _check_str(ticker, raise_err = True)
 
-        quandl_api_key = AppConfig.ENVIRONMENT_VARIABLE['quandl_api_key']
+        envvar = AppConfig.ENVIRONMENT_VARIABLE['quandl_api_key']
 
-        if not _check_environment_variable_set(quandl_api_key):
-            warnings.warn("Environment variable {quandl_api_key} for Quandl hasn't been set. ".format(quandl_api_key = quandl_api_key),
-                          " A maximum of {max_free_quandl_calls} calls per day can be made.")
+        if not _check_environment_variable_set(envvar):
+            message = Color.warn("Environment variable {envvar} for Quandl hasn't been set. A maximum of {max_calls} calls per day can be made. Visit {url} to get your API key.".format(envvar = envvar, max_calls = QUANDL_MAX_DAILY_CALLS, url = ABSURL_QUANDL))
+
+            warnings.warn(message)
+        else:
+            quandl.ApiConfig.api_key = os.getenv(envvar)
 
         self.source    = source
         self.ticker    = ticker
 
-        self._update(start = start, end = end, latest = latest, cache = cache)
+        self.update(start = start, end = end, latest = latest, cache = cache)
 
-    def update(self, cache = False):
+    def update(self, start = None, end = None, latest = None, cache = False):
         '''
         Update the share with the latest available data.
 
@@ -143,9 +184,6 @@ class Share(Entity):
         >>> share = bb.Share(source = 'YAHOO', ticker = 'AAPL')
         >>> share.update()
         '''
-        self._update(cache = cache)
-
-    def _update(self, start = None, end = None, latest = None, cache = False):
         self.data    = quandl.get('{database}/{code}'.format(
             database = self.source,
             code     = self.ticker
@@ -170,17 +208,23 @@ class Share(Entity):
                         period    = 50,
                         bandwidth = 1):
         '''
-        Bollinger Bands for each attribute.
+        Returns the Bollinger Bands (R) for each attribute.
 
-        :param attrs: `str` or `list` of attribute names of a share to plot, defaults to *Close* attribute
-        :type attrs: :obj: `str`, :obj:`list`
+        :param attrs: `str` or `list` of attribute name(s) of a share, defaults to *Close*
+        :type attrs: :obj:`str`, :obj:`list`
+
+        :param period: length of the window to compute moving averages, upper and lower bands
+        :type period: :obj:`int`
+
+        :param bandwidth: multiple of the standard deviation of upper and lower bands
+        :type bandwidth: :obj:`int`
 
         :Example:
 
         >>> import bulbea as bb
-        >>> share = bb.Share(source = 'YAHOO', ticker = 'AAPL')
-        >>> data  = share.bollinger_bands()
-        >>> data.tail()
+        >>> share     = bb.Share(source = 'YAHOO', ticker = 'AAPL')
+        >>> bollinger = share.bollinger_bands()
+        >>> bollinger.tail()
                     Lower (Close)  Mean (Close)  Upper (Close)
         Date
         2017-03-07     815.145883    831.694803     848.243724
@@ -260,4 +304,16 @@ class Share(Entity):
         :param format_: type of format to save the Share object, default 'csv'.
         :type format_: :obj:`str`
         '''
-        pass
+        if format_ not in SHARE_ACCEPTED_SAVE_FORMATS:
+            raise ValueError('Format {format_} not accepted. Accepted formats are: {accepted_formats}'.format(
+                format_          = format_,
+                accepted_formats = SHARE_ACCEPTED_SAVE_FORMATS
+            ))
+
+        if filename is not None:
+            _check_str(filename, raise_err = True)
+        else:
+            filename = _get_share_filename(self, extension = format_)
+
+        if format_ is 'csv':
+            self.data.to_csv(filename)

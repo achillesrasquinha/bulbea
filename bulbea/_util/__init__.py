@@ -16,6 +16,7 @@ from bulbea._util._util import (
     _validate_date,
     _assign_if_none,
     _get_type_name,
+    _get_datetime_str,
     _raise_type_error,
     _is_sequence_all
 )
