@@ -29,8 +29,6 @@ Release: v\ |release| (:ref:`Installation <installation>`)
 
 .. code:: python
 
-    >>> import bulbea as bb
-    >>> share = bb.Share('YAHOO', 'GOOGL')
     >>> share.plot(bollinger_bands = True, period = 100, bandwidth = 2)
 
 .. image:: _static/google_bollinger_bands.png
