@@ -20,6 +20,8 @@ modules           = [
     'bulbea.entity',
     'bulbea.learn',
     'bulbea.learn.models',
+    'bulbea.learn.models.ann',
+    'bulbea.learn.models.ann.rnn',
     'bulbea.learn.evaluation',
     'bulbea.learn.sentiment',
     'bulbea.app',
