@@ -7,8 +7,8 @@ docs/_build
 # Jupyter Checkpoints
 examples/.ipynb_checkpoints
 
-# twitter
-twitter.sh
+# Dependencies
+bulbea/app/node_modules
 
-# misc
-snippet.py
+# Logs
+bulbea/app/npm-debug.log
