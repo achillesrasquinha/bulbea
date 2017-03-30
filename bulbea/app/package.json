@@ -1,0 +1,40 @@
+{
+  "name": "bulbea",
+  "version": "0.1.0",
+  "description": "Deep Learning based Python Library for Stock Market Prediction and Modelling",
+  "main": "app/App.js",
+  "scripts": {
+    "start": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/achillesrasquinha/bulbea.git"
+  },
+  "keywords": [
+    "deep",
+    "learning",
+    "stock",
+    "market",
+    "prediction",
+    "modelling",
+    "bulbea",
+    "python"
+  ],
+  "author": "Achilles Rasquinha",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/achillesrasquinha/bulbea/issues"
+  },
+  "homepage": "https://github.com/achillesrasquinha/bulbea#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-react": "^6.23.0",
+    "webpack": "^2.3.2"
+  },
+  "dependencies": {
+    "babel-preset-latest": "^6.24.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  }
+}

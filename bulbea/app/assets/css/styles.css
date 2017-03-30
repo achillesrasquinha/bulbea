@@ -1,3 +1,15 @@
 .font-bold {
-  font-weight: 700;
+ 	font-weight: 700;
+}
+
+.no-border {
+	border: none !important;
+}
+
+.no-background {
+	background: none !important;
+}
+
+.no-shadow {
+	box-shadow: none !important;
 }

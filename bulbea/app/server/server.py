@@ -24,9 +24,3 @@ def index(title = 'Home', navbar = True):
 	template = render_template('pages/index.html', title = title, has_navbar = navbar)
 
 	return template
-
-@app.route(ServerConfig.URL.SIGNIN)
-def signin(title = 'Sign In', navbar = False):
-	template = render_template('pages/signin.html', title = title, has_navbar = navbar)
-
-	return template
