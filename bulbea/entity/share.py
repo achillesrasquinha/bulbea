@@ -22,7 +22,7 @@ from bulbea._util import (
     _check_pandas_series,
     _check_pandas_dataframe,
     _check_iterable,
-    _check_environment_variable_set,
+    _validate_environment_variable_set,
     _validate_date,
     _assign_if_none,
     _get_type_name,
@@ -176,7 +176,7 @@ class Share(Entity):
 
         envvar = AppConfig.ENVIRONMENT_VARIABLE['quandl_api_key']
 
-        if not _check_environment_variable_set(envvar):
+        if not _validate_environment_variable_set(envvar):
             message = Color.warn("Environment variable {envvar} for Quandl hasn't been set. A maximum of {max_calls} calls per day can be made. Visit {url} to get your API key.".format(envvar = envvar, max_calls = QUANDL_MAX_DAILY_CALLS, url = ABSURL_QUANDL))
 
             warnings.warn(message)
@@ -343,6 +343,6 @@ class Share(Entity):
         _validate_share_file_format(format_, raise_err = True)
 
         if ext in File.Type.PICKLE:
-            share = pickle.load(filename)            
+            share = pickle.load(filename)
 
         return share
