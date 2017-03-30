@@ -9,7 +9,12 @@ from keras.layers import recurrent
 from bulbea.learn.models import Classifier, Regressor
 from bulbea.learn.models.ann import ANN
 
-RNN_ACCEPTED_CELLS = (RNN.Cell.SIMPLE, RNN.Cell.GRU, RNN.LSTM)
+class RNNCell(object):
+	SIMPLE = recurrent.SimpleRNN
+	GRU    = recurrent.GRU
+	LSTM   = recurrent.LSTM
+
+RNN_ACCEPTED_CELLS = (RNNCell.SIMPLE, RNNCell.GRU, RNNCell.LSTM)
 
 def _check_cell(o, raise_err = False):
 	# TODO: _check_type: expected_type parameter should except obj of type, not str
@@ -17,8 +22,8 @@ def _check_cell(o, raise_err = False):
 	pass
 
 def _validate_cell(cell, raise_err = False):
-	_check_cell_type(cell, raise_err = True)
-	
+	_check_cell(cell, raise_err = True)
+
 	if cell not in RNN_ACCEPTED_CELLS:
 		if raise_err:
 			raise ValueError('Unknown cell kind {cell}. Accepted cell kinds are: {accepted_cells}'.format(
@@ -31,10 +36,6 @@ def _validate_cell(cell, raise_err = False):
 		return False
 
 class RNN(ANN):
-	class Cell(object):
-		SIMPLE = recurrent.SimpleRNN
-		GRU    = recurrent.GRU
-		LSTM   = recurrent.LSTM
 	'''
 	Base Recurrent Neural Network
 
@@ -45,7 +46,7 @@ class RNN(ANN):
 	:type size: :obj:`int`, :obj:`list`, :obj:`tuple`
 	'''
 	def __init__(self,
-				 cell = RNN.Cell.LSTM,
+				 cell = RNNCell.LSTM,
 				 size = 100):
 		_validate_cell(cell)
 
@@ -76,8 +77,9 @@ class RNNRegressor(RNN, Regressor):
 	'''
 	Recurrent Neural Network Regressor
 	'''
-	def __init__(self):
-		pass
+	def __init__(self, cell = RNNCell.LSTM, size = 100):
+		self.super = super(RNNRegressor, self)
+		self.super.__init__(cell = cell, size = size)
 
 	def fit(self, X, y):
 		pass
