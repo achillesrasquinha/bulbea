@@ -12,14 +12,17 @@ install:
 
 	bash twitter.sh
 
+clean:
+	$(PYTHON) setup.py clean
+
 docs:
 	cd docs && make html
 
 tests:
 	$(PYTHON) setup.py test
 
-clean:
-	$(PYTHON) setup.py clean
+app:
+	$(PYTHON) -m bulbea.app
 
 all:
 	make install docs tests clean
