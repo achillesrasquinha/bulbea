@@ -12,10 +12,14 @@ from datetime import datetime
 import pandas as pd
 
 # imports - module imports
+from bulbea.config.app import AppConfig
 from bulbea.error import TYPE_ERROR_STRING
 
-def _get_version_str(version):
-    return ''
+def _get_version_str():
+    version = AppConfig.VERSION
+    string  = '.'.join(map(str, version))
+
+    return string
 
 def _raise_type_error(expected_type_name, recieved_type_name):
     raise TypeError(TYPE_ERROR_STRING.format(
@@ -78,7 +82,7 @@ def _check_iterable(o, raise_err = False):
 def _check_sequence(o, string = True, raise_err = False):
     return _check_type(o, collections.Sequence, raise_err = raise_err, expected_type_name = '(list, tuple)')
 
-def _check_environment_variable_set(variable, raise_err = False):
+def _validate_environment_variable_set(variable, raise_err = False):
     _check_str(variable, raise_err = raise_err)
 
     try:
@@ -130,6 +134,3 @@ def _is_sequence_all(seq):
     is_seq = True if length != 0 and seq.count(seq[0]) == length else False
 
     return is_seq
-
-def _get_version_string(version):
-    pass
