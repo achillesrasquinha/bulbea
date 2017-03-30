@@ -6,7 +6,7 @@ import tweepy
 
 # module imports
 from bulbea import AppConfig
-from bulbea._util import _validate_environment_variable
+from bulbea._util import _validate_environment_variable_set
 
 class Twitter(object):
     def __init__(self):
@@ -15,10 +15,10 @@ class Twitter(object):
         access_token             = AppConfig.ENVIRONMENT_VARIABLE['twitter_access_token']
         access_token_secret      = AppConfig.ENVIRONMENT_VARIABLE['twitter_access_token_secret']
 
-        _validate_environment_variable(api_key, raise_err = True)
-        _validate_environment_variable(api_secret, raise_err = True)
-        _validate_environment_variable(access_token, raise_err = True)
-        _validate_environment_variable(access_token_secret, raise_err = True)
+        _validate_environment_variable_set(api_key, raise_err = True)
+        _validate_environment_variable_set(api_secret, raise_err = True)
+        _validate_environment_variable_set(access_token, raise_err = True)
+        _validate_environment_variable_set(access_token_secret, raise_err = True)
 
         self.api_key             = api_key
         self.api_secret          = api_secret
