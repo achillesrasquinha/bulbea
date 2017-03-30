@@ -3,6 +3,7 @@ from __future__ import absolute_import
 
 # imports - third-party packages
 import numpy as np
+from sklearn.preprocessing import MinMaxScaler
 
 # module imports
 from bulbea._util import (
@@ -37,6 +38,10 @@ def split(share,
 
     data   = share.data[attrs]
 
+    if normalize:
+        scaler = MinMaxScaler()
+        data   = scaler.fit_transform(data)
+
     length = len(share)
 
     window = int(np.rint(length * window))
@@ -44,8 +49,8 @@ def split(share,
 
     splits = np.array([data[i if i is 0 else i + offset: i + window] for i in range(length - window)])
 
-    if normalize:
-        splits = np.array([_get_cummulative_return(split) for split in splits])
+    # if normalize:
+        # splits = np.array([_get_cummulative_return(split) for split in splits])
 
     size   = len(splits)
     split  = int(np.rint(train * size))
@@ -55,5 +60,9 @@ def split(share,
 
     Xtrain, Xtest = train[:,:-1], test[:,:-1]
     ytrain, ytest = train[:, -1], test[:, -1]
+
+    # HACK: don't remove until a way is figured out for independent normalization
+    if normalize:
+        return (scaler, Xtrain, Xtest, ytrain, ytest)
 
     return (Xtrain, Xtest, ytrain, ytest)
