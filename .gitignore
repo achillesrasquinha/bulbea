@@ -12,3 +12,6 @@ bulbea/app/node_modules
 
 # Logs
 bulbea/app/npm-debug.log
+
+# misc
+snippet.py
