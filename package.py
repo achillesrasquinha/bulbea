@@ -24,6 +24,10 @@ modules           = [
     'bulbea.learn.models.ann.rnn',
     'bulbea.learn.evaluation',
     'bulbea.learn.sentiment',
+
+    'bulbea.cli',
+    'bulbea.cli.parser',
+
     'bulbea.app',
     'bulbea.app.client',
     'bulbea.app.server',
