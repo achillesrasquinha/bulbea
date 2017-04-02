@@ -7,7 +7,7 @@ from __future__ import absolute_import
 import sys
 
 # imports - module imports
-from bulbea.cli import main
+from bulbea import cli
 
 if __name__ == '__main__':
-    sys.exit(main())
+    sys.exit(cli.main())
