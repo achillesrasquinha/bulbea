@@ -10,8 +10,6 @@ install:
 
 	$(PYTHON) setup.py install
 
-	bash twitter.sh
-
 clean:
 	$(PYTHON) setup.py clean
 
