@@ -111,5 +111,12 @@ Detailed documentation is available [here](http://bulbea.readthedocs.io/en/lates
 3. tweepy
 4. textblob
 
+### Known Issues
+1.
+```console
+Failed cleaning build dir for cryptography...
+```
+[Here](http://stackoverflow.com/a/22210069) is an excellent answer for the same.
+
 ### License
 This code has been released under the [Apache 2.0 License](LICENSE).

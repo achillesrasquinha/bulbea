@@ -5,8 +5,8 @@ from __future__ import absolute_import
 import argparse
 
 # imports - module imports
-from bulbea.config      import AppConfig
 from bulbea._util       import _get_version_str
+from bulbea.config      import AppConfig
 from bulbea._util.color import Color
 
 class BaseParser(object):

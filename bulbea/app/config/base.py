@@ -12,4 +12,5 @@ class BaseConfig(object):
 		ABSPATH_ASSETS = os.path.join(ABSPATH_ROOT, 'assets')
 
 	class URL(object):
-		BASE   = '/'
+		BASE    = '/'
+		PREDICT = urljoin(BASE, 'predict')

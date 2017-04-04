@@ -21,6 +21,14 @@ def _get_version_str():
 
     return string
 
+def _autodict():
+    dict_ = collections.defaultdict(_autodict)
+
+    return dict_
+
+def _assign_if_none(a, b):
+    return b if a is None else a
+
 def _raise_type_error(expected_type_name, recieved_type_name):
     raise TypeError(TYPE_ERROR_STRING.format(
         expected_type_name = expected_type_name,
@@ -123,9 +131,6 @@ def _validate_date(value, format_ = '%Y-%m-%d', raise_err = False):
             return False
 
     return True
-
-def _assign_if_none(a, b):
-    return b if a is None else a
 
 def _is_sequence_all(seq):
     _check_sequence(seq, raise_err = True)

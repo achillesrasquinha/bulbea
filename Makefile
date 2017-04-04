@@ -6,7 +6,7 @@ install:
 	cat requirements/*.txt > requirements.txt
 	pip install -r requirements.txt
 
-	pip install tensorflow-gpu
+	pip install tensorflow
 
 	$(PYTHON) setup.py install
 

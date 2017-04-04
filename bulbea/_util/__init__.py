@@ -4,6 +4,9 @@ from __future__ import absolute_import
 # module imports
 from bulbea._util._util import (
     _get_version_str,
+    _autodict,
+    _assign_if_none,
+
 
 
     _raise_type_error,
@@ -20,7 +23,6 @@ from bulbea._util._util import (
     _validate_environment_variable_set,
     _validate_in_range,
     _validate_date,
-    _assign_if_none,
     _get_datetime_str,
     _is_sequence_all
 )
