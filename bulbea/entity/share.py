@@ -4,12 +4,13 @@ from __future__ import absolute_import
 # imports - standard packages
 import os
 import warnings
+import requests
 
 # imports - third-party packages
 import numpy as np
 import matplotlib.pyplot as pplt
 import pandas as pd
-import quandl
+# import quandl
 
 # module imports
 from bulbea.config.app import AppConfig
@@ -156,10 +157,12 @@ class Share(Entity):
     Date
     2003-05-15  18.6  18.849999  18.470001  18.73  71248800.0        1.213325
     '''
-    def __init__(self, source, ticker, start = None, end = None, latest = None, cache = False):
-        _check_str(source, raise_err = True)
+    # def __init__(self, source, ticker, start = None, end = None, latest = None, cache = False):
+    def __init__(self, ticker, start=None, end=None, latest=None, cache=False):
+        # _check_str(source, raise_err = True)
         _check_str(ticker, raise_err = True)
 
+        '''
         envvar = AppConfig.ENVIRONMENT_VARIABLE['quandl_api_key']
 
         if not _check_environment_variable_set(envvar):
@@ -168,8 +171,20 @@ class Share(Entity):
             warnings.warn(message)
         else:
             quandl.ApiConfig.api_key = os.getenv(envvar)
-
+        
         self.source    = source
+        '''
+
+        envvar = AppConfig.ENVIRONMENT_VARIABLE['tiingo_api_key']
+        config = {}
+        if not _check_environment_variable_set(envvar):
+            message = Color.warn("Environment variable {envvar} for Tiingo not configure correctly ")
+
+            warnings.warn(message)
+        else:
+            self.tiingo_token = os.getenv(envvar)
+
+
         self.ticker    = ticker
 
         self.update(start = start, end = end, latest = latest, cache = cache)
@@ -184,10 +199,18 @@ class Share(Entity):
         >>> share = bb.Share(source = 'YAHOO', ticker = 'AAPL')
         >>> share.update()
         '''
-        self.data    = quandl.get('{database}/{code}'.format(
-            database = self.source,
-            code     = self.ticker
-        ))
+        # self.data    = quandl.get('{database}/{code}'.format(
+        #     database = self.source,
+        #     code     = self.ticker
+        # ))
+        # url = "https://api.tiingo.com/tiingo/daily/{ticker}/prices?startDate={start_date}&endDate={end_date}&token={token}"
+        # self.data = pd.read_json(url.format(
+        #     ticker=ticker,
+        #     start_date=start,
+        #     end_date=end,
+        #     token=self.tiingo_token
+        # ))
+        self.data = self.getDataTiingo(self.ticker, start, end)
         self.length  =  len(self.data)
         self.attrs   = list(self.data.columns)
 
@@ -317,3 +340,33 @@ class Share(Entity):
 
         if format_ is 'csv':
             self.data.to_csv(filename)
+
+    def getDataTiingo(self, ticker, d_start, d_end):
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Token ' + self.tiingo_token
+        }
+        url = "https://api.tiingo.com/tiingo/daily/" + ticker + "/prices?startDate=" + d_start + "&endDate=" + d_end
+
+        # print url
+        requestResponse = requests.get(url, headers=headers)
+        json_result = requestResponse.json()
+
+        df = pd.DataFrame.from_records(json_result)
+
+        if not 'adjClose' in df.columns:
+            if 'close' in df.columns:
+                df['adjClose'] = df['close']
+            else:
+                print("Error: No Close information")
+                return
+
+        # Convert ISO date format to Pandas DateTime
+        df['date'] = pd.to_datetime(df['date'])
+        # Align Column Names to previous DataReader names
+        df = df.rename(
+            columns={'date': 'Date', 'open': 'Open', 'adjClose': 'Adj Close', 'volume': 'Volume', 'high': 'High',
+                     'low': 'Low', 'close': 'Close'})
+        a = df.set_index(['Date'])
+        # print a
+        return a
