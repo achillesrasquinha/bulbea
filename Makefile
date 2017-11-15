@@ -1,6 +1,20 @@
 .PHONY: docs
 
-PYTHON = python
+PYTHON 	   ?= python
+PYTHON3    ?= python3
+
+BASEDIR     = $(realpath .)
+DOCSDIR     = $(BASEDIR)/docs
+GITHUBDIR   = $(BASEDIR)/.github
+LOGO   	    = $(GITHUBDIR)/logo.png
+
+PIP        ?= pip3
+VIRTUALENV ?= virtualenv
+
+venv:
+	$(PIP) install virtualenv
+
+	$(VIRTUALENV) .venv/py3 --python $(PYTHON3)
 
 install:
 	cat requirements/*.txt > requirements.txt
@@ -10,9 +24,8 @@ install:
 
 	$(PYTHON) setup.py install
 
-	bash twitter.sh
-
 docs:
+	cp $(LOGO) $(DOCSDIR)/_static/img
 	cd docs && make html
 
 tests:

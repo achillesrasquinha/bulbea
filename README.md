@@ -1,9 +1,23 @@
-# bulbea
-> *"Deep Learning based Python Library for Stock Market Prediction and Modelling."*
+<div align="center">
+	<img src=".github/logo.png" height="256">
+	<h1>bulbea</h1>
+	<h5>Deep Learning based Python Library for Stock Market Prediction and Modelling</h5>
+</div>
 
-[![Gitter](https://img.shields.io/gitter/room/bulbea/bulbea.svg)](https://gitter.im/bulbea/bulbea) [![Documentation Status](https://readthedocs.org/projects/bulbea/badge/?version=latest)](http://bulbea.readthedocs.io/en/latest/?badge=latest)
-
-![](.github/bulbea.png)
+<div align="center">
+	<a href='http://bulbea.readthedocs.io/en/latest/?badge=latest'>
+		<img src='https://readthedocs.org/projects/bulbea/badge/?style=flat-square&version=latest'/>
+	</a>
+	<a href='https://gitter.im/bulbea/bulbea'>
+		<img src='https://img.shields.io/gitter/room/bulbea/bulbea.svg'/>
+	</a>
+	<a href="https://saythanks.io/to/achillesrasquinha">
+		<img src="https://img.shields.io/badge/Say%20Thanks-🦉-1EAEDB.svg?style=flat-square">
+	</a>
+	<a href="https://paypal.me/achillesrasquinha">
+		<img src="https://img.shields.io/badge/donate-💵-f44336.svg?style=flat-square">
+	</a>
+</div>
 
 ### Table of Contents
 * [Installation](#installation)
@@ -13,7 +27,7 @@
 * [License](#license)
 
 ### Installation
-Clone the git repository:
+Download or clone the repository using `git`:
 ```console
 $ git clone https://github.com/achillesrasquinha/bulbea.git && cd bulbea
 ```
