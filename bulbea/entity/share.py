@@ -160,14 +160,14 @@ class Share(Entity):
         _check_str(source, raise_err = True)
         _check_str(ticker, raise_err = True)
 
-        envvar = AppConfig.ENVIRONMENT_VARIABLE['quandl_api_key']
+        envvar = os.environ["quandl_api_key"]
 
         if not _check_environment_variable_set(envvar):
             message = Color.warn("Environment variable {envvar} for Quandl hasn't been set. A maximum of {max_calls} calls per day can be made. Visit {url} to get your API key.".format(envvar = envvar, max_calls = QUANDL_MAX_DAILY_CALLS, url = ABSURL_QUANDL))
 
             warnings.warn(message)
         else:
-            quandl.ApiConfig.api_key = os.getenv(envvar)
+            quandl.ApiConfig.api_key = os.environ(envvar)
 
         self.source    = source
         self.ticker    = ticker
