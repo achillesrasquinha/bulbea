@@ -1,14 +1,9 @@
-# virtualenvs
+# venv
 .venv
 
 # docs
 docs/_build
 
-# Jupyter Checkpoints
-examples/.ipynb_checkpoints
-
-# twitter
-twitter.sh
-
-# misc
-snippet.py
+# cache
+notebooks/.ipynb_checkpoints
+.DS_Store
